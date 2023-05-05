@@ -5,28 +5,45 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+
 @Service
 public class GreatCircleMathCalculationService {
 
     public ResponseEntity<GreatCircleMathCalculationDto> calculateGreatCircleMath(double latA, double longA, double latB, double longB){
-        double radius = 3958.76;
+        return calculateGreatCircleMath(latA, longA, latB, longB, false);
+    }
+
+    public ResponseEntity<GreatCircleMathCalculationDto> calculateGreatCircleMath(double latA, double longA, double latB, double longB, boolean inKm){
+        double radius = 0;
         double latitudeA = Math.toRadians(latA);
         double longitudeA = Math.toRadians(longA);
         double latitudeB = Math.toRadians(latB);
         double longitudeB = Math.toRadians(longB);
 
+        if(inKm)
+            radius = 6371;
+        else
+            radius = 3958.8;
+
         double result = radius * Math.acos(Math.cos(latitudeA) * Math.cos(latitudeB) * Math.cos(longitudeA - longitudeB) + Math.sin(latitudeA) * Math.sin(latitudeB));
 
-        return setGreatCircleMathCalculationDto(latA, longA, latB, longB, result);
+        return setGreatCircleMathCalculationDto(latA, longA, latB, longB, new BigDecimal(result).setScale(2, RoundingMode.UP).doubleValue(), inKm);
     }
 
-    private ResponseEntity<GreatCircleMathCalculationDto> setGreatCircleMathCalculationDto(double latA, double longA, double latB, double longB, double distance){
+    private ResponseEntity<GreatCircleMathCalculationDto> setGreatCircleMathCalculationDto(double latA, double longA, double latB, double longB, double distance, boolean inKm){
         GreatCircleMathCalculationDto greatCircleMathCalculationDto = new GreatCircleMathCalculationDto();
         greatCircleMathCalculationDto.setLatitudeA(latA);
         greatCircleMathCalculationDto.setLongitudeA(longA);
         greatCircleMathCalculationDto.setLatitudeB(latB);
         greatCircleMathCalculationDto.setLongitudeB(longB);
-        greatCircleMathCalculationDto.setGreatCircleMiles(distance);
+        greatCircleMathCalculationDto.setDistance(distance);
+
+        if(inKm)
+            greatCircleMathCalculationDto.setUom("km");
+        else
+            greatCircleMathCalculationDto.setUom("mi");
 
         return new ResponseEntity<>(greatCircleMathCalculationDto, HttpStatus.OK);
     }

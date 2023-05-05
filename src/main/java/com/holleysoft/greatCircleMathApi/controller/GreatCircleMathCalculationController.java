@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("/circleMath")
+@RequestMapping("/calculate")
 public class GreatCircleMathCalculationController {
     GreatCircleMathCalculationService greatCircleMathCalculationService;
 
@@ -28,6 +28,19 @@ public class GreatCircleMathCalculationController {
 
         ResponseEntity<GreatCircleMathCalculationDto> responseEntity;
         responseEntity = greatCircleMathCalculationService.calculateGreatCircleMath(latA, longA, latB, longB);
+
+        return responseEntity;
+    }
+
+    @GetMapping("/getDistanceInKm/{latA}/{longA}/{latB}/{longB}")
+    public ResponseEntity<GreatCircleMathCalculationDto> getGreatCircleMathCalculationInKM(
+            @PathVariable double latA,
+            @PathVariable double longA,
+            @PathVariable double latB,
+            @PathVariable double longB){
+
+        ResponseEntity<GreatCircleMathCalculationDto> responseEntity;
+        responseEntity = greatCircleMathCalculationService.calculateGreatCircleMath(latA, longA, latB, longB, true);
 
         return responseEntity;
     }

@@ -8,5 +8,6 @@ public class GreatCircleMathCalculationDto {
     double longitudeA;
     double latitudeB;
     double longitudeB;
-    double greatCircleMiles;
+    double distance;
+    String uom;
 }
