@@ -1,1 +1,1 @@
-web: java -jar target/greatCircleMathApi-0.0.1-SNAPSHOT.jar com.holleysoft.greatCircleMathApi
+web: java -jar target/greatCircleMathApi-0.0.1-SNAPSHOT.jar --server.port=$PORT com.holleysoft.greatCircleMathApi
