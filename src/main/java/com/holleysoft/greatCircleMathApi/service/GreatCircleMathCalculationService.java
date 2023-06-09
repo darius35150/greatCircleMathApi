@@ -34,10 +34,10 @@ public class GreatCircleMathCalculationService {
 
     private ResponseEntity<GreatCircleMathCalculationDto> setGreatCircleMathCalculationDto(double latA, double longA, double latB, double longB, double distance, boolean inKm){
         GreatCircleMathCalculationDto greatCircleMathCalculationDto = new GreatCircleMathCalculationDto();
-        greatCircleMathCalculationDto.setLatitudeA(latA);
-        greatCircleMathCalculationDto.setLongitudeA(longA);
-        greatCircleMathCalculationDto.setLatitudeB(latB);
-        greatCircleMathCalculationDto.setLongitudeB(longB);
+        greatCircleMathCalculationDto.setLatitude1(latA);
+        greatCircleMathCalculationDto.setLongitude1(longA);
+        greatCircleMathCalculationDto.setLatitude2(latB);
+        greatCircleMathCalculationDto.setLongitude2(longB);
         greatCircleMathCalculationDto.setDistance(distance);
 
         if(inKm)
