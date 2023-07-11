@@ -87,13 +87,19 @@ public class RestUtil {
             greatCircleMathByLocationDto.setLatitude1(Double.parseDouble(responseObject.get("lat").toString()));
             greatCircleMathByLocationDto.setLongitude1(Double.parseDouble(responseObject.get("lon").toString()));
             greatCircleMathByLocationDto.setCityName1(responseObject.get("name").toString());
-            greatCircleMathByLocationDto.setStateName1(responseObject.get("state").toString());
+
+            if(!responseObject.isNull("state"))
+                greatCircleMathByLocationDto.setStateName1(responseObject.get("state").toString());
+
             greatCircleMathByLocationDto.setCountry1(responseObject.get("country").toString());
         }else{
             greatCircleMathByLocationDto.setLatitude2(Double.parseDouble(responseObject.get("lat").toString()));
             greatCircleMathByLocationDto.setLongitude2(Double.parseDouble(responseObject.get("lon").toString()));
             greatCircleMathByLocationDto.setCityName2(responseObject.get("name").toString());
-            greatCircleMathByLocationDto.setStateName2(responseObject.get("state").toString());
+            
+            if(!responseObject.isNull("state"))
+                greatCircleMathByLocationDto.setStateName1(responseObject.get("state").toString());
+
             greatCircleMathByLocationDto.setCountry2(responseObject.get("country").toString());
         }
 

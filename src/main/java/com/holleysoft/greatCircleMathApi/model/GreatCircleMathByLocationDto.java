@@ -1,8 +1,12 @@
 package com.holleysoft.greatCircleMathApi.model;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+
 import lombok.Data;
 
 @Data
+@JsonInclude(Include.NON_NULL)
 public class GreatCircleMathByLocationDto {
     private String cityName1;
     private String stateName1;

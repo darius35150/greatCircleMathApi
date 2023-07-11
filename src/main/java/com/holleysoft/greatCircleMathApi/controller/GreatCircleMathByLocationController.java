@@ -7,7 +7,6 @@ import org.springframework.http.ResponseEntity;
 import com.holleysoft.greatCircleMathApi.model.GreatCircleMathByLocationDto;
 import com.holleysoft.greatCircleMathApi.service.GreatCircleMathByLocationService;
 
-import java.util.ArrayList;
 
 @RestController
 @RequestMapping("/byLocation")

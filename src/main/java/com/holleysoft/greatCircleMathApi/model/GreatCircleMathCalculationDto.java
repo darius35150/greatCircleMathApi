@@ -3,8 +3,6 @@ package com.holleysoft.greatCircleMathApi.model;
 import lombok.Data;
 import lombok.NonNull;
 
-import java.util.ArrayList;
-
 @Data
 @NonNull
 public class GreatCircleMathCalculationDto {
