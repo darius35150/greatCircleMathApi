@@ -1,37 +1,30 @@
 package com.holleysoft.greatCircleMathApi.util;
 
-import java.io.IOException;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.ArrayList;
 import java.util.Objects;
 
 import com.holleysoft.greatCircleMathApi.model.GreatCircleMathCalculationDto;
 import com.holleysoft.greatCircleMathApi.model.GreatCircleMilesDto;
 import com.holleysoft.greatCircleMathApi.service.GreatCircleMathCalculationService;
-import org.apache.coyote.Response;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.holleysoft.greatCircleMathApi.model.GreatCircleMathByLocationDto;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
-import org.springframework.util.StringUtils;
+import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
-import javax.print.DocFlavor;
-
+@Component
 public class RestUtil {
     GreatCircleMathCalculationService greatCircleMathCalculationService = new GreatCircleMathCalculationService();
     RestTemplate restTemplate = new RestTemplate();
     Logger logger = LoggerFactory.getLogger(RestUtil.class);
     String geocodeBaseURL = "http://api.openweathermap.org/geo/1.0/direct?q=";
-    String key = "9e00e7490b3e4fe0221f432d8767a854";
+    private String key = "9e00e7490b3e4fe0221f432d8767a854";
 
     @Autowired
     public RestUtil(){
@@ -98,7 +91,7 @@ public class RestUtil {
             greatCircleMathByLocationDto.setCityName2(responseObject.get("name").toString());
             
             if(!responseObject.isNull("state"))
-                greatCircleMathByLocationDto.setStateName1(responseObject.get("state").toString());
+                greatCircleMathByLocationDto.setStateName2(responseObject.get("state").toString());
 
             greatCircleMathByLocationDto.setCountry2(responseObject.get("country").toString());
         }
