@@ -11,7 +11,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.holleysoft.greatCircleMathApi.model.GreatCircleMathByLocationDto;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
@@ -26,7 +25,6 @@ public class RestUtil {
     String geocodeBaseURL = "http://api.openweathermap.org/geo/1.0/direct?q=";
     private String key = "9e00e7490b3e4fe0221f432d8767a854";
 
-    @Autowired
     public RestUtil(){
     }
 
