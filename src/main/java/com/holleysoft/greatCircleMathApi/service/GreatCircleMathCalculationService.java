@@ -28,8 +28,10 @@ public class GreatCircleMathCalculationService {
             radius = 3958.8;
 
         double result = radius * Math.acos(Math.cos(latitudeA) * Math.cos(latitudeB) * Math.cos(longitudeA - longitudeB) + Math.sin(latitudeA) * Math.sin(latitudeB));
-
-        return setGreatCircleMathCalculationDto(latA, longA, latB, longB, new BigDecimal(result).setScale(2, RoundingMode.UP).doubleValue(), inKm);
+        if(Double.isNaN(result))
+            return setGreatCircleMathCalculationDto(latA, longA, latB, longB, BigDecimal.ZERO.setScale(2, RoundingMode.UP).doubleValue(), inKm);
+        else
+            return setGreatCircleMathCalculationDto(latA, longA, latB, longB, new BigDecimal(result).setScale(2, RoundingMode.UP).doubleValue(), inKm);
     }
 
     private ResponseEntity<GreatCircleMathCalculationDto> setGreatCircleMathCalculationDto(double latA, double longA, double latB, double longB, double distance, boolean inKm){

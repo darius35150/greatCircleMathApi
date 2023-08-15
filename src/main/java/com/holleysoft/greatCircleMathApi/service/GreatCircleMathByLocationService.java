@@ -20,7 +20,6 @@ public class GreatCircleMathByLocationService {
                                                                                     boolean inKm){
         
         GreatCircleMathByLocationDto greatCircleMathByLocationDto = restUtil.getCitiesLatLong(city1, state1, country1, city2, state2, country2, inKm);
-
                                                                                         
         return new ResponseEntity<GreatCircleMathByLocationDto>(greatCircleMathByLocationDto,HttpStatus.OK);
     }

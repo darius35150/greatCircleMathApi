@@ -11,7 +11,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.holleysoft.greatCircleMathApi.model.GreatCircleMathByLocationDto;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
@@ -38,18 +37,37 @@ public class RestUtil {
         ResponseEntity<String> responseEntity = restTemplate.exchange(url, HttpMethod.GET, null, String.class);
 
         JSONArray jsonArray = new JSONArray(responseEntity.getBody().toString());
-        JSONObject jsonObject = jsonArray.getJSONObject(0);
+        JSONObject jsonObject = new JSONObject();
 
-        mapResponseToDto(greatCircleMathByLocationDto, jsonObject, null, true);
-
+        if(!jsonArray.isEmpty()){
+            jsonObject = jsonArray.getJSONObject(0);
+            
+            url = "";
+            url = geocodeBaseURL + city2 + "," + state2 + "," + country2 + "&limit=1&appid=" + key;
+            responseEntity = restTemplate.exchange(url, HttpMethod.GET, null, String.class);
+            mapResponseToDto(greatCircleMathByLocationDto, jsonObject, null, true);
+        } else{
+            greatCircleMathByLocationDto = new GreatCircleMathByLocationDto();
+            mapResponseToDto(greatCircleMathByLocationDto, new JSONObject(), null, true);
+        }
+        
         url = "";
         url = geocodeBaseURL + city2 + "," + state2 + "," + country2 + "&limit=1&appid=" + key;
         responseEntity = restTemplate.exchange(url, HttpMethod.GET, null, String.class);
 
         jsonArray = new JSONArray(responseEntity.getBody().toString());
-        jsonObject = jsonArray.getJSONObject(0);
-        mapResponseToDto(greatCircleMathByLocationDto, jsonObject, null, false);
-        calculateMiles(greatCircleMathByLocationDto, inKm);
+        jsonObject = new JSONObject();
+
+        if(!jsonArray.isEmpty()){
+            jsonObject = jsonArray.getJSONObject(0);
+            mapResponseToDto(greatCircleMathByLocationDto, jsonObject, null, false);
+            calculateMiles(greatCircleMathByLocationDto, inKm);
+        }
+        else{
+            mapResponseToDto(greatCircleMathByLocationDto, new JSONObject(), null, true);
+        }
+            
+        
         return greatCircleMathByLocationDto;
     }
 
@@ -57,7 +75,7 @@ public class RestUtil {
         double latA, longA, latB, longB;
         latA = locationList.getLatitude1();
         longA = locationList.getLongitude1();
-;
+
         latB = locationList.getLatitude2();
         longB = locationList.getLongitude2();
 
@@ -75,6 +93,16 @@ public class RestUtil {
 
         }
         else if(firstLocation){
+            if(responseObject.isEmpty()){
+                greatCircleMathByLocationDto.setLatitude1(Double.NaN);
+                greatCircleMathByLocationDto.setLongitude1(Double.NaN);
+                greatCircleMathByLocationDto.setCityName1("Incorrect city/state/country");
+                greatCircleMathByLocationDto.setStateName1("Incorrect city/state/country");
+                greatCircleMathByLocationDto.setCountry1("Incorrect city/state/country");
+                
+                return greatCircleMathByLocationDto;
+            } 
+            
             greatCircleMathByLocationDto.setLatitude1(Double.parseDouble(responseObject.get("lat").toString()));
             greatCircleMathByLocationDto.setLongitude1(Double.parseDouble(responseObject.get("lon").toString()));
             greatCircleMathByLocationDto.setCityName1(responseObject.get("name").toString());
@@ -84,6 +112,14 @@ public class RestUtil {
 
             greatCircleMathByLocationDto.setCountry1(responseObject.get("country").toString());
         }else{
+            if(responseObject.isEmpty()){
+                greatCircleMathByLocationDto.setLatitude2(Double.NaN);
+                greatCircleMathByLocationDto.setLongitude2(Double.NaN);
+                greatCircleMathByLocationDto.setCityName2("Incorrect city/state/country");
+                greatCircleMathByLocationDto.setStateName2("Incorrect city/state/country");
+                greatCircleMathByLocationDto.setCountry2("Incorrect city/state/country");
+                return greatCircleMathByLocationDto;
+            } 
             greatCircleMathByLocationDto.setLatitude2(Double.parseDouble(responseObject.get("lat").toString()));
             greatCircleMathByLocationDto.setLongitude2(Double.parseDouble(responseObject.get("lon").toString()));
             greatCircleMathByLocationDto.setCityName2(responseObject.get("name").toString());
