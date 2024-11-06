@@ -14,25 +14,25 @@ import com.holleysoft.greatCircleMathApi.util.GeocodeRestUtil;
 
 @Service
 public class GeocodeService {
-    GeocodeRestUtil restUtil;
+    GeocodeRestUtil geocodeRestUtil;
 
-    public GeocodeService(GeocodeRestUtil restUtil) {
-        this.restUtil = restUtil;
+    public GeocodeService(GeocodeRestUtil geocodeRestUtil) {
+        this.geocodeRestUtil = geocodeRestUtil;
     }
 
     public ResponseEntity<List<GeocodeData>> getGeocodeByName(String city, String state, String countryAbbrev, String limit) {
-        ResponseEntity<String> geocoodeResponse = restUtil.getGeocodeByName(city, state, countryAbbrev, limit);
+        ResponseEntity<String> geocoodeResponse = geocodeRestUtil.getGeocodeByName(city, state, countryAbbrev, limit);
         
         return mapDataToGeocodeDataDto(geocoodeResponse);
     }
     
     public ResponseEntity<GeocodeByZipDto> getGeocodeByZip(String zip, String countryAbbrev){
-        ResponseEntity<String> zipResponse = restUtil.getGeocodeByZip(zip, countryAbbrev);
+        ResponseEntity<String> zipResponse = geocodeRestUtil.getGeocodeByZip(zip, countryAbbrev);
         return mapDataToGeocodeByZipDto(zipResponse);
     }
 
     public ResponseEntity<List<GeocodeData>> getGeocodeByCoordinates(String lat, String lon, String limit){
-        ResponseEntity<String> coordinatesResponse = restUtil.getGeocodeByCoordinates(lat, lon, limit);
+        ResponseEntity<String> coordinatesResponse = geocodeRestUtil.getGeocodeByCoordinates(lat, lon, limit);
         System.out.println(coordinatesResponse.getBody());
         return mapDataToGeocodeDataDto(coordinatesResponse);
     }
